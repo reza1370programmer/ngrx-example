@@ -11,26 +11,30 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-
-import { todoReducer } from './state/todos/todo.reducer';
-import { TodoEffects } from './state/todos/todo.effects';
-
+import { userReducer } from './state/users.reducers';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserEffects } from './state/user.effects';
+import { UserComponent } from './user/user.component';
+import { UserServiceService } from './state/userService.service';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, UserComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     IonicStorageModule.forRoot(),
-    StoreModule.forRoot({ todos: todoReducer }),
+    StoreModule.forRoot({ users: userReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([TodoEffects]),
+    EffectsModule.forRoot([UserEffects]),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [UserServiceService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
